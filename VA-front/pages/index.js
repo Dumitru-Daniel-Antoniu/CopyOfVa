@@ -600,14 +600,14 @@ export default function Home() {
                         <div className={styles.slide}>
                           <img src="/salaPasilorPierduti1.jpg" alt="Sala Pasilor Pierduti" />
                           <div className={styles.descriptionBox}>
-                            <p>"Sala Pasilor Pierduti"</p>
+                            <p>{t.slideShowMessages.titles.hall}</p>
                             <a href="https://www.uaic.ro/despre-uaic/prezentare-sala-pasilor-pierduti/" target="_blank" rel="noopener noreferrer">{t.slideShowMessages.exploreMessage}</a>
                           </div>
                         </div>
                           <div className={styles.slide}>
                           <img src="/sala_pasilor_pierduti.jpg" alt="Sala Pasilor Pierduti" />
                           <div className={styles.descriptionBox}>
-                            <p>"Sala Pasilor Pierduti"</p>
+                            <p>{t.slideShowMessages.titles.hall}</p>
                             <a href="https://www.uaic.ro/despre-uaic/prezentare-sala-pasilor-pierduti/" target="_blank" rel="noopener noreferrer">{t.slideShowMessages.exploreMessage}</a>
                           </div>
                         </div>

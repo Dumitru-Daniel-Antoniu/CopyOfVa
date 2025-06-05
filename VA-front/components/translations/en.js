@@ -83,6 +83,7 @@ export default {
       botanicalGarden: "Anastasie Fătu Botanical Garden",
       canteen: "Gaudeamus Canteen",
       museum: "University Museum",
+      hall: "The Hall of the Lost Footsteps"
     }
   },
 };
