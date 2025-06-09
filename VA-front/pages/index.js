@@ -737,7 +737,10 @@ export default function Home() {
       <div className={isDarkMode ? styles.dark : styles.light}>
         <div className={styles.topnav}>
             <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1rem 0 0' }}>
-                <Image src="/logo.png" alt="UAIC Logo" width={48} height={48} />
+                <Image src="/logo.png" alt="App Logo" width={50} height={50} />
+            </a>
+            <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1rem 0 0' }}>
+                <Image src="/logoFii.png" alt="Fii Logo" width={50} height={50} />
             </a>
           <div className={styles.resourcesContainer} ref={resourcesRef}>
               <button 
