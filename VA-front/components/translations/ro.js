@@ -81,6 +81,7 @@ export default {
       botanicalGarden: "Grădina Botanică Anastasie Fătu",
       canteen:"Cantina Gaudeamus",
       museum: "Muzeul Universității",
+      hall: "Sala Pașilor Pierduți",
     }
   }
 };

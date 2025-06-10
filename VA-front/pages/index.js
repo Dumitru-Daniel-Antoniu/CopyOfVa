@@ -60,6 +60,7 @@ export default function Home() {
     const [activeCategory, setActiveCategory] = useState(null);
 
     const [resourcesOpen, setResourcesOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const [selectedResource, setSelectedResource] = useState(null);
     const resourcesRef = useRef(null);
 
@@ -470,18 +471,53 @@ export default function Home() {
     );
   };
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-        if (resourcesRef.current && !resourcesRef.current.contains(event.target)) {
-            setResourcesOpen(false);
-        }
-    }
+  // useEffect(() => {
+  //   function handleClickOutside(event) {
+  //       if (resourcesRef.current && !resourcesRef.current.contains(event.target)) {
+  //           setResourcesOpen(false);
+  //       }
+  //   }
 
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //       document.removeEventListener('mousedown', handleClickOutside);
+  //   }
+  // }, [resourcesRef]);
+  useEffect(() => {
+  function handleResize() {
+    setIsMobile(window.innerWidth < 768); // Typical breakpoint for mobile
+  }
+  
+  // Set initial value
+  handleResize();
+  
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
+useEffect(() => {
+  function handleClickOutside(event) {
+    if (resourcesRef.current && !resourcesRef.current.contains(event.target)) {
+      setResourcesOpen(false);
+    }
+  }
+
+  // Only add listener if mobile and menu is open
+  if (isMobile && resourcesOpen) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [resourcesRef]);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }
+}, [resourcesRef, resourcesOpen, isMobile]);
+
+const handleResourceSelect = (resource) => {
+  setResourcesOpen(false);
+
+  if(resource.url) {
+    window.open(resource.url, '_blank', 'noopener,noreferrer');
+  }
+};
 
   // useEffect(() => {
   //   const messageList = messageListRef.current;
@@ -641,13 +677,13 @@ export default function Home() {
         }
     };
 
-    const handleResourceSelect = (resource) => {
-        setResourcesOpen(false);
+    // const handleResourceSelect = (resource) => {
+    //     setResourcesOpen(false);
 
-        if(resource.url) {
-          window.open(resource.url, '_blank', 'noopener,noreferrer');
-        }
-    };
+    //     if(resource.url) {
+    //       window.open(resource.url, '_blank', 'noopener,noreferrer');
+    //     }
+    // };
 
     const handleSidebarResourceClick = (url) => {
         window.open(url, '_blank', 'noopener,noreferrer');
@@ -729,74 +765,99 @@ export default function Home() {
 
     if (language === null) return null;
 
-    return (
-    <>
-      <Head>
-        <title>FIIHelp</title>
-      </Head>
-      <div className={isDarkMode ? styles.dark : styles.light}>
-        <div className={styles.topnav}>
-            <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1rem 0 0' }}>
-                <Image src="/logo.png" alt="App Logo" width={50} height={50} />
-            </a>
-            <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1rem 0 0' }}>
-                <Image src="/logoFii.png" alt="Fii Logo" width={50} height={50} />
-            </a>
+return (
+  <>
+    <Head>
+      <title>FIIHelp</title>
+    </Head>
+    <div className={isDarkMode ? styles.dark : styles.light}>
+      <div className={styles.topnav}>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1rem 0 0' }}>
+          <Image src="/logo.png" alt="App Logo" width={50} height={50} />
+        </a>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 1rem 0 0' }}>
+          <Image src="/logoFii.png" alt="Fii Logo" width={50} height={50} />
+        </a>
+        
+        {/* Desktop Navigation Items */}
+        {!isMobile && (
+          <div className={styles.desktopNavItems}>
+            {resources.map((resource) => {
+              const IconComponent = resource.icon;
+              return (
+                <a
+                  key={resource.id}
+                  onClick={() => handleResourceSelect(resource)}
+                  className={styles.desktopNavLink}
+                >
+                  {IconComponent && <IconComponent size={16} className={styles.resourceIcon} />}
+                  <span>{resource.name}</span>
+                </a>
+              );
+            })}
+          </div>
+        )}
+        
+        {/* Mobile Menu Button and Dropdown */}
+        {isMobile && (
           <div className={styles.resourcesContainer} ref={resourcesRef}>
-              <button 
-                onClick={() => setResourcesOpen(!resourcesOpen)}
-                className={styles.resourcesButton}
-              >
-                <Menu />
-              </button>
-              
-              {resourcesOpen && (
-                <div className={styles.resourcesDropdown}>
-                  <ul>
-                    {resources.map((resource) => {
-                      const IconComponent = resource.icon;
-                      return (
-                        <li key={resource.id}>
-                          <button 
-                            onClick={() => handleResourceSelect(resource)}
-                            className={styles.resourceItem}
-                          >
-                            {IconComponent && <IconComponent size={16} className={styles.resourceIcon} />}
-                            <span>{resource.name}</span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
-            </div>
-          <div className = {styles.navlinks}>
             <button 
+              onClick={() => setResourcesOpen(!resourcesOpen)}
+              className={styles.resourcesButton}
+            >           
+              <Menu />
+            </button>
+            
+            {resourcesOpen && (
+              <div className={styles.resourcesDropdown}>
+                <ul>
+                  {resources.map((resource) => {
+                    const IconComponent = resource.icon;
+                    return (
+                      <li key={resource.id}>
+                        <button 
+                          onClick={() => handleResourceSelect(resource)}
+                          className={styles.resourceItem}
+                        >
+                          {IconComponent && <IconComponent size={16} className={styles.resourceIcon} />}
+                          <span>{resource.name}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+        
+        {/* Language and Theme Toggle (should be outside mobile menu) */}
+        <div className={styles.navlinks}>
+          <button 
             onClick={toggleLanguage}
             className={styles.languageButton}
           >
             {language === 'en' ? 'RO' : 'EN'}
           </button>
-            <label className={styles["theme-toggle"]}>
-                              <input
-                                  type="checkbox"
-                                  checked={!isDarkMode}
-                                  onChange={() => {
-                                      setIsDarkMode((prev) => {
-                                          const newTheme = !prev;
-                                          localStorage.setItem("theme", newTheme ? "dark" : "light");
-                                          return newTheme;
-                                      });
-                                  }}
-                              />
-                              <span className={styles.slider}>
-        <span className={`${styles.icon} ${styles.sun}`}>🌙</span>
-        <span className={`${styles.icon} ${styles.moon}`}>☀️</span>
-      </span>
-                          </label>
-          </div>
+          <label className={styles["theme-toggle"]}>
+            <input
+              type="checkbox"
+              checked={!isDarkMode}
+              onChange={() => {
+                setIsDarkMode((prev) => {
+                  const newTheme = !prev;
+                  localStorage.setItem("theme", newTheme ? "dark" : "light");
+                  return newTheme;
+                });
+              }}
+            />
+            <span className={styles.slider}>
+              <span className={`${styles.icon} ${styles.sun}`}>🌙</span>
+              <span className={`${styles.icon} ${styles.moon}`}>☀️</span>
+            </span>
+          </label>
         </div>
+      </div>
         <main className={styles.main}>
           <div className = {styles.cloud}>
             <div ref={messageListRef} className = {styles.messagelist}>
@@ -969,14 +1030,14 @@ export default function Home() {
                         <div className={styles.slide}>
                           <img src="/salaPasilorPierduti1.jpg" alt="Sala Pasilor Pierduti" />
                           <div className={styles.descriptionBox}>
-                            <p>"Sala Pasilor Pierduti"</p>
+                            <p>{t.slideShowMessages.titles.hall}</p>
                             <a href="https://www.uaic.ro/despre-uaic/prezentare-sala-pasilor-pierduti/" target="_blank" rel="noopener noreferrer">{t.slideShowMessages.exploreMessage}</a>
                           </div>
                         </div>
                           <div className={styles.slide}>
                           <img src="/sala_pasilor_pierduti.jpg" alt="Sala Pasilor Pierduti" />
                           <div className={styles.descriptionBox}>
-                            <p>"Sala Pasilor Pierduti"</p>
+                            <p>{t.slideShowMessages.titles.hall}</p>
                             <a href="https://www.uaic.ro/despre-uaic/prezentare-sala-pasilor-pierduti/" target="_blank" rel="noopener noreferrer">{t.slideShowMessages.exploreMessage}</a>
                           </div>
                         </div>

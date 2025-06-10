@@ -723,17 +723,19 @@
 .questionItem {
   padding: 0.75rem 1rem;
   margin: 0.5rem 0;
-  background-color: #00a5b5;
+  background-color: #3f76b7;
   border-radius: 8px;
   transition: all 0.2s ease;
   font-size: 0.95rem;
   border: 1px solid var(--border-color-light);
+  color: white
 }
 
 .questionItem:hover {
   background-color: var(--button-hover);
   transform: translateX(5px);
   cursor: pointer;
+  color: black;
 }
 
 /* Animations */
@@ -1659,4 +1661,86 @@
     }
   }
 
+}
+
+/* Desktop Navigation Container */
+.desktopNavItems {
+  display: flex;
+  gap: 1.5rem;
+  margin-right: auto;
+  margin-left: 1rem;
+  align-items: center;
+}
+
+/* Desktop Navigation Links (text style) */
+.desktopNavLink {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: white; /* Default light text for dark mode */
+  text-decoration: none;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  padding: 0.25rem 0;
+}
+
+.desktopResourceItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  height: 32px;
+  white-space: nowrap;
+}
+
+.dark .desktopResourceItem {
+  background-color: var(--bg);
+  color: white;
+}
+
+.dark .desktopResourceItem:hover {
+  background-color: #1b1b1b;
+}
+
+.light .desktopResourceItem {
+  background-color: white;
+  color: black;
+}
+
+.light .desktopResourceItem:hover {
+  background-color: #cbc6c6;
+}
+
+.desktopNavLink:hover {
+  opacity: 0.8;
+  text-decoration: underline; /* Optional underline on hover */
+}
+
+/* Icon styling (optional) */
+.desktopNavLink .resourceIcon {
+  margin-right: 1px;
+}
+
+/* Mobile styles - hide desktop items on mobile */
+@media (max-width: 767px) {
+  .desktopNavItems {
+    display: none;
+  }
+  
+  .resourcesContainer {
+    margin-left: auto;
+  }
+}
+
+/* Desktop styles - hide mobile menu button on desktop */
+@media (min-width: 768px) {
+  .resourcesContainer {
+    display: none;
+  }
 }
