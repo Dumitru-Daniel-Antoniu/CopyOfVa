@@ -1005,6 +1005,10 @@
   color: #d1d5db;
 }
 
+.dark .universityName {
+  color: #d1d5db;
+}
+
 .slideshowContainer {
   width: 100wv;
   margin: 6rem auto 2rem; 
@@ -1144,6 +1148,10 @@
 .footerText {
   margin-top: 10px; 
   color: var(--text);
+}
+
+.dark .footerText {
+  color: white;
 }
 
 .languageButton {
@@ -1325,9 +1333,14 @@
 .facultyName {
   font-size: 1rem;
   font-weight: 600;
-  color: #000 !important;
+  color: #000;
   line-height: 1.4;
   word-wrap: break-word;
+}
+
+.dark .universityName,
+.dark .facultyName {
+  color: white;
 }
 
 .footerText {

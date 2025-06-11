@@ -407,7 +407,7 @@ export default function Home() {
     description: "Software Engineering master's program schedule for Year 2 Group 2.",
     url: "https://edu.info.uaic.ro/orar/participanti/orar_MISS22.html",
     logo: "/FiiLogo.png",
-    keywords: ["MISS22", "ISS22", "error"]
+    keywords: ["MISS22", "ISS22"]
   }
 ];
 
@@ -1604,11 +1604,11 @@ return (
                   <div className={styles.footerLogos}>
                     <div className={styles.logoContainer}>
                       <img src="/logo_uaic.png" alt="Logo 1" className={styles.footerLogo} />
-                      <span className={styles.universityName}>"Alexandru Ioan Cuza" University of Iași</span>
+                      <span className={styles.universityName}>Universitatea "Alexandru Ioan Cuza" din Iași</span>
                     </div>
                     <div className={styles.logoContainer}>
                       <img src="/logo_faculty.png" alt="Logo 2" className={styles.footerLogo} />
-                      <span className={styles.facultyName}>Faculty of Computer Science</span>
+                      <span className={styles.facultyName}>Facultatea de Informatică</span>
                     </div>
                   </div>
                   <div className={styles.footerText}>
